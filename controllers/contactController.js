@@ -7,12 +7,13 @@ const getContact = (req, res) => {
 
 // route for POST /api/contacts
 const createContact = (req, res) => {
-  res.status(201).json({ message: "Create contacts" });
+  console.log("The request body is:", req.body);
   const { name, email, phone } = req.body;
   if (!name || !email || !phone) {
-    res.status(400);
-    throw new Error("All fields are required");
-  }
+      res.status(400);
+      throw new Error("All fields are required");
+    }
+    res.status(201).json({ message: "Create contacts" });
 };
 
 // route for PUT /api/contacts
