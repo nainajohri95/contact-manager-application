@@ -4,9 +4,8 @@ const dotenv = require("dotenv").config();
 const app = express();
 const port = process.env.PORT || 3001;
 
-app.get("/api/contacts", (req, res) => {
-  res.status(200).json({ message: "all contacts" });
-});
+//middleware
+app.use("/api/contacts", require("./routes/contactRoutes"));
 
 app.listen(port, () => {
   console.log(`server running on the port ${port}`);
