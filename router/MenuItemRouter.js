@@ -32,4 +32,19 @@ router.get("/", async (req, res) => {
   }
 });
 
+//GET method to get the taste
+router.get("/:taste", async (req, res) => {
+  try {
+    const tasteType = req.params.taste;
+    if (tasteType == "spicy" || tasteType == "sweet" || tasteType == "sour") {
+      const response = await MenuItem.find({ taste: tasteType });
+      console.log("response fetched");
+      res.status(200).json(response);
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 module.exports = router;
