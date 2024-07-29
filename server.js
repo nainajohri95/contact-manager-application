@@ -23,8 +23,10 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const db = require("./db");
+require("dotenv").config();
 
 const bodyParser = require("body-parser");
+const PORT = process.env.PORT || 3000;
 
 //middleware
 app.use(bodyParser.json()); //res.body(to use middleware we use app.use)
@@ -54,7 +56,9 @@ app.use("/person", personRoutes);
 const menueItemRoutes = require("./router/MenuItemRouter");
 app.use("/menu", menueItemRoutes);
 
-app.listen(3000, () => {
+//we access the varible in .env file like this process.env.PORT
+
+app.listen(PORT, () => {
   console.log("Listening on port 3000");
 });
 
