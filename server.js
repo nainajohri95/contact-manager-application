@@ -7,11 +7,6 @@
 // console.log(result);
 //...................
 
-// const express = require("express");
-// const app = express();
-
-// const port = 5000;
-
 //lodash library
 // server is a person who communicate with clients(server is a computer program that is responsible for preparing and delivering data to other computres)
 // express.js is one of the popular frame work that give us server
@@ -24,8 +19,7 @@ const app = express();
 const mongoose = require("mongoose");
 const db = require("./db");
 require("dotenv").config();
-const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
+const passport = require("./auth");
 
 const bodyParser = require("body-parser");
 const PORT = process.env.PORT || 3000;
@@ -44,28 +38,6 @@ const logRequest = (req, res, next) => {
 const res = require("express/lib/response");
 
 app.use(logRequest);
-passport.use(
-  new LocalStrategy(async (USERNAME, password, done) => {
-    //done is a callback function
-    // authentication logic here
-    try {
-      console.log("Received Credentials:", username, password);
-      const user = await Person.findOne({ username: USERNAME }); //checking that username in person model is matching with the username pased in the middleware
-      if (!user) {
-        return done(null, false, { message: "Incorrect username." });
-      }
-      const isPasswordMatch = user.password === password ? true : false;
-
-      if (isPasswordMatch) {
-        return done(null, user);
-      } else {
-        return done(null, false, { message: "Incorrect Password" });
-      }
-    } catch (error) {
-      return done(error);
-    }
-  })
-);
 
 app.use(passport.initialize());
 const localAuthMiddleware = passport.authenticate("local", { session: false });
@@ -75,9 +47,10 @@ app.get("/", function (req, res) {
 });
 
 const personRoutes = require("./router/PersonRouter");
+const menueItemRoutes = require("./router/MenuItemRouter");
+
 app.use("/person", personRoutes);
 
-const menueItemRoutes = require("./router/MenuItemRouter");
 app.use("/menu", localAuthMiddleware, menueItemRoutes);
 
 //we access the varible in .env file like this process.env.PORT
