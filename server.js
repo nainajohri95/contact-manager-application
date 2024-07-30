@@ -31,9 +31,17 @@ const PORT = process.env.PORT || 3000;
 //middleware
 app.use(bodyParser.json()); //res.body(to use middleware we use app.use)
 
+//Middleware Function
+const logRequest = (req, res, next) => {
+  console.log(
+    `${new Date().toLocaleDateString()} Request Made to: ${req.originalUrl}`
+  );
+  next(); //move on to the next phase
+};
+
 const res = require("express/lib/response");
 
-app.get("/", function (req, res) {
+app.get("/", logRequest, function (req, res) {
   res.send("Hello World");
 });
 
