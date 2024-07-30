@@ -28,6 +28,14 @@ const personSchema = new mongoose.Schema({
     type: String, // Changed from Number to String
     require: true,
   },
+  username: {
+    required: true,
+    type: String,
+  },
+  password: {
+    require: true,
+    type: String,
+  },
 });
 
 // Create person model

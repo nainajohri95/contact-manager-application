@@ -24,6 +24,8 @@ const app = express();
 const mongoose = require("mongoose");
 const db = require("./db");
 require("dotenv").config();
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
 
 const bodyParser = require("body-parser");
 const PORT = process.env.PORT || 3000;
