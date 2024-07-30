@@ -44,10 +44,38 @@ const logRequest = (req, res, next) => {
 const res = require("express/lib/response");
 
 app.use(logRequest);
+passport.use(
+  new LocalStrategy(async (USERNAME, password, done) => {
+    //done is a callback function
+    // authentication logic here
+    try {
+      console.log("Received Credentials:", username, password);
+      const user = await Person.findOne({ username: USERNAME }); //checking that username in person model is matching with the username pased in the middleware
+      if (!user) {
+        return done(null, false, { message: "Incorrect username." });
+      }
+      const isPasswordMatch = user.password === password ? true : false;
 
-app.get("/", function (req, res) {
-  res.send("Hello World");
-});
+      if (isPasswordMatch) {
+        return done(null, user);
+      } else {
+        return done(null, false, { message: "Incorrect Password" });
+      }
+    } catch (error) {
+      return done(error);
+    }
+  })
+);
+
+app.use(passport.initialize());
+
+app.get(
+  "/",
+  passport.authenticate("local", { session: false }),
+  function (req, res) {
+    res.send("Hello World");
+  }
+);
 
 // app.get("/menu", function (req, res) {
 //   res.send("Here is your menu sir");
