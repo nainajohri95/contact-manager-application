@@ -41,7 +41,9 @@ const logRequest = (req, res, next) => {
 
 const res = require("express/lib/response");
 
-app.get("/", logRequest, function (req, res) {
+app.use(logRequest);
+
+app.get("/", function (req, res) {
   res.send("Hello World");
 });
 
