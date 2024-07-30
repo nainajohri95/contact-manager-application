@@ -49,9 +49,9 @@ app.get("/", function (req, res) {
 const personRoutes = require("./router/PersonRouter");
 const menueItemRoutes = require("./router/MenuItemRouter");
 
-app.use("/person", personRoutes);
+app.use("/person", localAuthMiddleware, personRoutes);
 
-app.use("/menu", localAuthMiddleware, menueItemRoutes);
+app.use("/menu", menueItemRoutes);
 
 //we access the varible in .env file like this process.env.PORT
 

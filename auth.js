@@ -7,12 +7,12 @@ passport.use(
     //done is a callback function
     // authentication logic here
     try {
-      console.log("Received Credentials:", username, password);
+      //   console.log("Received Credentials:", username, password);
       const user = await Person.findOne({ username: username }); //checking that username in person model is matching with the username pased in the middleware
       if (!user) {
         return done(null, false, { message: "Incorrect username." });
       }
-      const isPasswordMatch = user.password === password ? true : false;
+      const isPasswordMatch = await user.comparePassword(password);
 
       if (isPasswordMatch) {
         return done(null, user);
