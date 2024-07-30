@@ -73,7 +73,7 @@ app.get(
   "/",
   passport.authenticate("local", { session: false }),
   function (req, res) {
-    res.send("Hello World");
+    res.send("Welcome to our Hotel");
   }
 );
 
