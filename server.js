@@ -68,33 +68,17 @@ passport.use(
 );
 
 app.use(passport.initialize());
+const localAuthMiddleware = passport.authenticate("local", { session: false });
 
-app.get(
-  "/",
-  passport.authenticate("local", { session: false }),
-  function (req, res) {
-    res.send("Welcome to our Hotel");
-  }
-);
-
-// app.get("/menu", function (req, res) {
-//   res.send("Here is your menu sir");
-// });
-
-// app.get("/idli", (req, res) => {
-//   var idli_details = {
-//     name: "rava_idli",
-//     size: "10cm idli",
-//     is_sambhar: true,
-//   };
-//   res.send(idli_details);
-// });
+app.get("/", function (req, res) {
+  res.send("Welcome to our Hotel");
+});
 
 const personRoutes = require("./router/PersonRouter");
 app.use("/person", personRoutes);
 
 const menueItemRoutes = require("./router/MenuItemRouter");
-app.use("/menu", menueItemRoutes);
+app.use("/menu", localAuthMiddleware, menueItemRoutes);
 
 //we access the varible in .env file like this process.env.PORT
 
