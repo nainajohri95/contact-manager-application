@@ -7,7 +7,7 @@ const jwtAuthMiddleware = (req, res, next) => {
 
   try {
     //Verify the JWT token(creating auth middleware)
-    const decoded = jwt.verify(token, proces.env.JWT_SECRET);
+    const decoded = jwt.verify(token, proces.env.JWT_SECRET, { expiresIn: 30 });
 
     //Attach user information to the request object
     req.user = decoded;
